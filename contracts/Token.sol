@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: UNLICENSED
-
+import "hardhat/console.sol";
 // Solidity files have to start with this pragma.
 // It will be used by the Solidity compiler to validate its version.
 pragma solidity ^0.8.9;
@@ -40,6 +40,7 @@ contract Token {
      * The `external` modifier makes a function *only* callable from *outside*
      * the contract.
      */
+    /*
     function transfer(address to, uint256 amount) external {
         // Check if the transaction sender has enough tokens.
         // If `require`'s first argument evaluates to `false` then the
@@ -51,6 +52,22 @@ contract Token {
         balances[to] += amount;
 
         // Notify off-chain applications of the transfer.
+        emit Transfer(msg.sender, to, amount);
+    }*/
+
+    function transfer(address to, uint256 amount) external {
+        require(balances[msg.sender] >= amount, "Not enough tokens");
+    
+        console.log(
+            "Transferring from %s to %s %s tokens",
+            msg.sender,
+            to,
+            amount
+        );
+    
+        balances[msg.sender] -= amount;
+        balances[to] += amount;
+    
         emit Transfer(msg.sender, to, amount);
     }
 
